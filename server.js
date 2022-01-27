@@ -31,37 +31,28 @@ function getAuthors(callback) {
   );    
 }
 
+function getPublications(callback) {    
+  connection.query("SELECT * FROM movie_db.publication",
+      function (err, rows) {
+          callback(err, rows); 
+      }
+  );    
+}
 
 //Testing endpoint
-/*
-app.get('/', function(req, res){
-  var response = [{response : 'hello'}, {code : '200'}]
-  res.json(response);
-})
-*/
 
 // Implement the movies API endpoint
 app.get('/movies', function(req, res){
-  var movies = [
-    {title : 'Suicide Squad', release: '2016', score: 8, reviewer: 'Robert Smith', publication : 'The Daily Reviewer'},    
-    {title : 'Batman vs. Superman', release : '2016', score: 6, reviewer: 'Chris Harris', publication : 'International Movie Critic'},
-    {title : 'Captain America: Civil War', release: '2016', score: 9, reviewer: 'Janet Garcia', publication : 'MoviesNow'},
-    {title : 'Deadpool', release: '2016', score: 9, reviewer: 'Andrew West', publication : 'MyNextReview'},
-    {title : 'Avengers: Age of Ultron', release : '2015', score: 7, reviewer: 'Mindy Lee', publication: 'Movies n\' Games'},
-    {title : 'Ant-Man', release: '2015', score: 8, reviewer: 'Martin Thomas', publication : 'TheOne'},
-    {title : 'Guardians of the Galaxy', release : '2014', score: 10, reviewer: 'Anthony Miller', publication : 'ComicBookHero.com'},
-  ]
+  getMovies(function (err, movies){   
+    console.log(movies);   
+    res.json(movies);
 
-  res.json(movies);
+ });
 })
 
 app.get('/', function(req, res, next) {   
-    //now you can call the get-driver, passing a callback function
-    //var response = [{response : 'hello'}, {code : '200'}]
-    //res.json(response);
-    getMovies(function (err, moviesResult){ 
-       //you might want to do something is err is not null...   
-      
+    
+    getMovies(function (err, moviesResult){   
        console.log(moviesResult);   
        res.json(moviesResult);
 
@@ -71,7 +62,6 @@ app.get('/', function(req, res, next) {
 
 // Implement the reviewers API endpoint
 app.get('/reviewers', function(req, res){ 
-
   getAuthors(function (err, authors){ 
     console.log(authors);   
     res.json(authors);
@@ -80,18 +70,11 @@ app.get('/reviewers', function(req, res){
 
 // Implement the publications API endpoint
 app.get('/publications', function(req, res){
-  var publications = [
-    {name : 'The Daily Reviewer', avatar: 'glyphicon-eye-open'},
-    {name : 'International Movie Critic', avatar: 'glyphicon-fire'},
-    {name : 'MoviesNow', avatar: 'glyphicon-time'},
-    {name : 'MyNextReview', avatar: 'glyphicon-record'},
-    {name : 'Movies n\' Games', avatar: 'glyphicon-heart-empty'},
-    {name : 'TheOne', avatar : 'glyphicon-globe'},
-    {name : 'ComicBookHero.com', avatar : 'glyphicon-flash'}
-  ];
-
-  res.json(publications);
-})
+  getPublications(function (err, publications){ 
+    console.log(publications);   
+    res.json(publications);
+  });
+});
 
 // Implement the pending reviews API endpoint
 app.get('/pending', function(req, res){
