@@ -43,19 +43,15 @@ function getPublications(callback) {
 
 // Implement the movies API endpoint
 app.get('/movies', function(req, res){
-  getMovies(function (err, movies){   
-    console.log(movies);   
+  getMovies(function (err, movies){
     res.json(movies);
 
  });
-})
+});
 
 app.get('/', function(req, res, next) {   
-    
     getMovies(function (err, moviesResult){   
-       console.log(moviesResult);   
        res.json(moviesResult);
-
     });
 });
 
@@ -63,15 +59,13 @@ app.get('/', function(req, res, next) {
 // Implement the reviewers API endpoint
 app.get('/reviewers', function(req, res){ 
   getAuthors(function (err, authors){ 
-    console.log(authors);   
     res.json(authors);
   });
 });
 
 // Implement the publications API endpoint
 app.get('/publications', function(req, res){
-  getPublications(function (err, publications){ 
-    console.log(publications);   
+  getPublications(function (err, publications){
     res.json(publications);
   });
 });
